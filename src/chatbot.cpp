@@ -44,6 +44,40 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+    ChatBot::ChatBot(const ChatBot&other)//copy cınstructor
+    {
+        _chatLogic = other._chatLogic;
+        _rootNode = other._rootNode;
+
+        // load image into heap memory
+        _image = other._image;
+    }
+    ChatBot::ChatBot(const ChatBot&&other)//move constructor
+    {
+
+        _chatLogic = std::move(other._chatLogic);
+        _rootNode = std::move(other._rootNode);
+
+        // load image into heap memory
+        _image = std::move(other._image);
+
+    }
+    ChatBot& ChatBot::operator=(const ChatBot &other)//copy assignment operator
+    {
+        _chatLogic = other._chatLogic;
+        _rootNode = other._rootNode;
+        // load image into heap memory
+        _image = other._image;
+        return *this;
+    }
+    ChatBot& ChatBot::operator=(const ChatBot&&other)//move assignment operator
+    {
+        _chatLogic = std::move(other._chatLogic);
+        _rootNode = std::move(other._rootNode);
+        // load image into heap memory
+        _image = std::move(other._image);
+        return *this;
+    }
 
 ////
 //// EOF STUDENT CODE
