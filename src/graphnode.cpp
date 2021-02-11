@@ -56,7 +56,7 @@ GraphEdge *GraphNode::GetChildEdgeAtIndex(int index)
     //// STUDENT CODE
     ////
 
-    return _childEdges[index].get();
+    return std::move(_childEdges[index]).get();
 
     ////
     //// EOF STUDENT CODE
