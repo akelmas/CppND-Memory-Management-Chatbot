@@ -215,7 +215,9 @@ void ChatLogic::SetChatbotHandle(ChatBot *chatbot)
 
 void ChatLogic::SendMessageToChatbot(std::string message)
 {
+ 
     _chatBot->ReceiveMessageFromUser(message);
+
 }
 
 void ChatLogic::SendMessageToUser(std::string message)

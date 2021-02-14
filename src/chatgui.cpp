@@ -54,15 +54,18 @@ void ChatBotFrame::OnEnter(wxCommandEvent &WXUNUSED(event))
 {
     // retrieve text from text control
     wxString userText = _userTextCtrl->GetLineText(0);
-
+    int line=0;
     // add new user text to dialog
     _panelDialog->AddDialogItem(userText, true);
+
 
     // delete text in text control
     _userTextCtrl->Clear();
 
+
     // send user text to chatbot 
      _panelDialog->GetChatLogicHandle()->SendMessageToChatbot(std::string(userText.mb_str()));
+
 }
 
 BEGIN_EVENT_TABLE(ChatBotFrameImagePanel, wxPanel)

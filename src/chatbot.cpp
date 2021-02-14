@@ -74,6 +74,7 @@ ChatBot::~ChatBot()
         _chatLogic = other._chatLogic;
         _rootNode = other._rootNode;
         // load image into heap memory
+        delete _image;
         _image = new wxBitmap(*other._image);
         return *this;
     }
@@ -83,7 +84,8 @@ ChatBot::~ChatBot()
         _chatLogic = other._chatLogic;
         _rootNode = other._rootNode;
         // load image into heap memory
-        _image = other._image;
+        delete _image;
+        _image =new wxBitmap(*other._image);
         return *this;
     }
 
@@ -93,12 +95,17 @@ ChatBot::~ChatBot()
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {
     // loop over all edges and keywords and compute Levenshtein distance to query
+
     typedef std::pair<GraphEdge *, int> EdgeDist;
     std::vector<EdgeDist> levDists; // format is <ptr,levDist>
+    
 
     for (size_t i = 0; i < _currentNode->GetNumberOfChildEdges(); ++i)
     {
         GraphEdge *edge = _currentNode->GetChildEdgeAtIndex(i);
+
+
+
         for (auto keyword : edge->GetKeywords())
         {
             EdgeDist ed{edge, ComputeLevenshteinDistance(keyword, message)};
@@ -119,7 +126,7 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
         // go back to root node
         newNode = _rootNode;
     }
-
+    
     // tell current node to move chatbot to new node
     _currentNode->MoveChatbotToNewNode(newNode);
 }
