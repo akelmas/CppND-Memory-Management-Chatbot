@@ -20,7 +20,7 @@ ChatBot::ChatBot()
 // constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
-    std::cout << "ChatBot Constructor" << std::endl;
+    std::cout << "ChatBot Constructor " << "ADDR:"<<this<<std::endl;
     
     // invalidate data handles
     _chatLogic = nullptr;
@@ -32,8 +32,7 @@ ChatBot::ChatBot(std::string filename)
 
 ChatBot::~ChatBot()
 {
-    std::cout << "ChatBot Destructor" << std::endl;
-
+    std::cout << "ChatBot Destructor " <<"ADDR:"<<this<< std::endl;
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
@@ -46,36 +45,45 @@ ChatBot::~ChatBot()
 ////
     ChatBot::ChatBot(const ChatBot&other)//copy cınstructor
     {
+         std::cout << "ChatBot Copy Constructor " <<"ADDR:"<<this<< std::endl;
         _chatLogic = other._chatLogic;
         _rootNode = other._rootNode;
 
         // load image into heap memory
-        _image = other._image;
+        _image = new wxBitmap(*other._image);
     }
     ChatBot::ChatBot(const ChatBot&&other)//move constructor
     {
+         std::cout << "ChatBot Move Constructor " <<"ADDR:"<<this<< std::endl;
 
-        _chatLogic = std::move(other._chatLogic);
-        _rootNode = std::move(other._rootNode);
+        _chatLogic = (other._chatLogic);
+        _rootNode = (other._rootNode);
 
         // load image into heap memory
-        _image = std::move(other._image);
+
+        _image = new wxBitmap(*other._image);
 
     }
     ChatBot& ChatBot::operator=(const ChatBot &other)//copy assignment operator
     {
+
+         std::cout << "ChatBot Copy Assignment Operator " <<"ADDR:"<<this<< std::endl;
+        if (this == &other) {
+            return *this;
+        }
         _chatLogic = other._chatLogic;
         _rootNode = other._rootNode;
         // load image into heap memory
-        _image = other._image;
+        _image = new wxBitmap(*other._image);
         return *this;
     }
     ChatBot& ChatBot::operator=(const ChatBot&&other)//move assignment operator
     {
-        _chatLogic = std::move(other._chatLogic);
-        _rootNode = std::move(other._rootNode);
+         std::cout << "ChatBot Move Assignment Operator " <<"ADDR:"<<this<< std::endl;
+        _chatLogic = other._chatLogic;
+        _rootNode = other._rootNode;
         // load image into heap memory
-        _image = std::move(other._image);
+        _image = other._image;
         return *this;
     }
 
