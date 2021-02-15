@@ -20,8 +20,9 @@ ChatBot::ChatBot()
 // constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
-    std::cout << "ChatBot Constructor " << "ADDR:"<<this<<std::endl;
-    
+    std::cout << "ChatBot Constructor "
+              << "ADDR:" << this << std::endl;
+
     // invalidate data handles
     _chatLogic = nullptr;
     _rootNode = nullptr;
@@ -32,65 +33,82 @@ ChatBot::ChatBot(std::string filename)
 
 ChatBot::~ChatBot()
 {
-    std::cout << "ChatBot Destructor " <<"ADDR:"<<this<< std::endl;
+    std::cout << "ChatBot Destructor "
+              << "ADDR:" << this << std::endl;
     // deallocate heap memory
-    if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    if (_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
         delete _image;
         _image = NULL;
     }
 }
 
-//// STUDENT CODE
-////
-    ChatBot::ChatBot(const ChatBot&other)//copy cınstructor
+
+ChatBot::ChatBot(const ChatBot &other) //copy cınstructor
+{
+    std::cout << "ChatBot Copy Constructor "
+              << "ADDR:" << this << std::endl;
+    _chatLogic = other._chatLogic;
+    _rootNode = other._rootNode;
+    if (_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
-         std::cout << "ChatBot Copy Constructor " <<"ADDR:"<<this<< std::endl;
-        _chatLogic = other._chatLogic;
-        _rootNode = other._rootNode;
-
-        // load image into heap memory
-        _image = new wxBitmap(*other._image);
-    }
-    ChatBot::ChatBot(const ChatBot&&other)//move constructor
-    {
-         std::cout << "ChatBot Move Constructor " <<"ADDR:"<<this<< std::endl;
-
-        _chatLogic = (other._chatLogic);
-        _rootNode = (other._rootNode);
-
-        // load image into heap memory
-
-        _image = new wxBitmap(*other._image);
-
-    }
-    ChatBot& ChatBot::operator=(const ChatBot &other)//copy assignment operator
-    {
-
-         std::cout << "ChatBot Copy Assignment Operator " <<"ADDR:"<<this<< std::endl;
-        if (this == &other) {
-            return *this;
-        }
-        _chatLogic = other._chatLogic;
-        _rootNode = other._rootNode;
-        // load image into heap memory
         delete _image;
-        _image = new wxBitmap(*other._image);
+        _image = NULL;
+    }
+    // load image into heap memory
+    _image = new wxBitmap(*other._image);
+}
+ChatBot::ChatBot(const ChatBot &&other) //move constructor
+{
+    std::cout << "ChatBot Move Constructor "
+              << "ADDR:" << this << std::endl;
+
+    _chatLogic = (other._chatLogic);
+    _rootNode = (other._rootNode);
+    if (_image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    {
+        delete _image;
+        _image = NULL;
+    }
+    // load image into heap memory
+
+    _image = new wxBitmap(*other._image);
+}
+ChatBot &ChatBot::operator=(const ChatBot &other) //copy assignment operator
+{
+
+    std::cout << "ChatBot Copy Assignment Operator "
+              << "ADDR:" << this << std::endl;
+    if (this == &other)
+    {
         return *this;
     }
-    ChatBot& ChatBot::operator=(const ChatBot&&other)//move assignment operator
+    _chatLogic = other._chatLogic;
+    _rootNode = other._rootNode;
+    // load image into heap memory
+        if (_image != NULL) // Attention: wxWidgets used NULL and not nullptr
     {
-         std::cout << "ChatBot Move Assignment Operator " <<"ADDR:"<<this<< std::endl;
-        _chatLogic = other._chatLogic;
-        _rootNode = other._rootNode;
-        // load image into heap memory
         delete _image;
-        _image =new wxBitmap(*other._image);
-        return *this;
+        _image = NULL;
     }
-
-////
-//// EOF STUDENT CODE
+    _image = new wxBitmap(*other._image);
+    return *this;
+}
+ChatBot &ChatBot::operator=(const ChatBot &&other) //move assignment operator
+{
+    std::cout << "ChatBot Move Assignment Operator "
+              << "ADDR:" << this << std::endl;
+    _chatLogic = other._chatLogic;
+    _rootNode = other._rootNode;
+    // load image into heap memory
+        if (_image != NULL) // Attention: wxWidgets used NULL and not nullptr
+    {
+        delete _image;
+        _image = NULL;
+    }
+    _image = new wxBitmap(*other._image);
+    return *this;
+}
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {
@@ -98,13 +116,10 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
 
     typedef std::pair<GraphEdge *, int> EdgeDist;
     std::vector<EdgeDist> levDists; // format is <ptr,levDist>
-    
 
     for (size_t i = 0; i < _currentNode->GetNumberOfChildEdges(); ++i)
     {
         GraphEdge *edge = _currentNode->GetChildEdgeAtIndex(i);
-
-
 
         for (auto keyword : edge->GetKeywords())
         {
@@ -126,7 +141,7 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
         // go back to root node
         newNode = _rootNode;
     }
-    
+
     // tell current node to move chatbot to new node
     _currentNode->MoveChatbotToNewNode(newNode);
 }
